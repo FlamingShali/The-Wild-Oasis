@@ -5,7 +5,6 @@ const imageUrl = `${supabaseUrl}/storage/v1/object/public/cabin-images/`;
 export const cabins = [
   {
     name: "001",
-    maxCapacity: 2,
     regularPrice: 250,
     discount: 0,
     image: imageUrl + "cabin-001.jpg",
