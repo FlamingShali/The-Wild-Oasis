@@ -7,7 +7,6 @@ import CreateCabinForm from "../features/cabins/CreateCabinForm";
 import AddCabin from "../features/cabins/AddCabin";
 
 function Cabins() {
- 
   return (
     <>
       <Row type="horizontal">
@@ -18,7 +17,7 @@ function Cabins() {
       <Row>
         <CabinTable />
 
-<AddCabin />
+        <AddCabin />
       </Row>
     </>
   );
