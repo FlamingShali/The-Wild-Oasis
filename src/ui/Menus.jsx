@@ -1,8 +1,8 @@
+import { useOutsideClick } from "./../hooks/useOutsideClick";
 import { createContext, useContext, useState } from "react";
 import { createPortal } from "react-dom";
 import { HiEllipsisVertical } from "react-icons/hi2";
 import styled from "styled-components";
-import { useOutsideClick } from '@chakra-ui/react'
 
 const Menu = styled.div`
   display: flex;
@@ -94,6 +94,7 @@ function Toggle({ id }) {
       x: window.innerWidth - rect.width - rect.x,
       y: rect.y + rect.height + 8,
     });
+    e.stopPropagation();
   }
 
   return (
@@ -103,7 +104,7 @@ function Toggle({ id }) {
   );
 }
 function List({ id, children }) {
-  const { openId, position } = useContext(MenusContext);
+  const { openId, position, close } = useContext(MenusContext);
   const ref = useOutsideClick(close);
 
   if (openId !== id) return null;
