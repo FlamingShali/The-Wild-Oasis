@@ -13,8 +13,11 @@ import { useBooking } from "./useBooking";
 import Spinner from "../../ui/Spinner";
 import { useNavigate } from "react-router-dom";
 import Menus from "../../ui/Menus";
-import { HiArrowUpOnSquare } from "react-icons/hi2";
+import { HiArrowUpOnSquare, HiTrash } from "react-icons/hi2";
 import { useCheckout } from "../check-in-out/useCheckout";
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import { useDeleteBooking } from "../check-in-out/useDeleteBooking";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -27,6 +30,7 @@ function BookingDetail() {
   const { booking, isLoading } = useBooking();
   const moveBack = useMoveBack();
   const navigate = useNavigate();
+  const { deleteBooking, isDeleting } = useDeleteBooking();
 
   if (isLoading) return <Spinner />;
 
@@ -59,9 +63,6 @@ function BookingDetail() {
             Check In
           </Button>
         )}
-        <Button size="medium" variation="secondary" onClick={moveBack}>
-          Back
-        </Button>
 
         {status === "checked-in" && (
           <Button
@@ -74,6 +75,39 @@ function BookingDetail() {
             Check Out
           </Button>
         )}
+
+        <Modal>
+          <Modal.Open opens="delete">
+            <Button size="medium" variation="danger">
+              Delete Booking
+            </Button>
+          </Modal.Open>
+          <Modal.Window name="delete">
+            <ConfirmDelete
+              resourceName="booking"
+              onConfirm={() =>
+                deleteBooking(bookingId, {
+                  onSettled: () => navigate(-1),
+                })
+              }
+              disabled={isDeleting}
+            />
+          </Modal.Window>
+        </Modal>
+
+        <Button
+          variation="primary"
+          size="medium"
+          icon={<HiTrash />}
+          onClick={() => checkout(bookingId)}
+          disabled={isCheckout}
+        >
+          Check Out
+        </Button>
+
+        <Button size="medium" variation="secondary" onClick={moveBack}>
+          Back
+        </Button>
       </ButtonGroup>
     </>
   );
